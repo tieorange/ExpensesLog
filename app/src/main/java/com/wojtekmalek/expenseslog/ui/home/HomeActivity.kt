@@ -1,12 +1,16 @@
-package com.wojtekmalek.expenseslog
+package com.wojtekmalek.expenseslog.ui.home
 
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.GridLayoutManager
 import android.view.Menu
 import android.view.MenuItem
+import com.wojtekmalek.expenseslog.R
+import com.wojtekmalek.expenseslog.model.Category
 
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.content_home.*
 
 class HomeActivity : AppCompatActivity() {
 
@@ -14,6 +18,9 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         setSupportActionBar(toolbar)
+
+        list.layoutManager = GridLayoutManager(this, 2)
+        list.adapter = CategoriesAdapter(Category.getDummy())
 
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
