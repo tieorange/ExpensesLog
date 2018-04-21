@@ -10,7 +10,7 @@ import com.wojtekmalek.expenseslog.model.Category
 import com.wojtekmalek.expenseslog.util.bindView
 
 
-class CategoriesAdapter(private val items: List<Category>) : RecyclerView.Adapter<CategoriesAdapter.ViewHolder>() {
+class CategoriesAdapter(val items: List<Category>) : RecyclerView.Adapter<CategoriesAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)

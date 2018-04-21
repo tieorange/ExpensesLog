@@ -1,14 +1,13 @@
 package com.wojtekmalek.expenseslog.ui.home
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import com.wojtekmalek.expenseslog.R
-import com.wojtekmalek.expenseslog.model.Category
 import com.wojtekmalek.expenseslog.ui.addExpense.AddExpenseItemActivity
+import com.wojtekmalek.expenseslog.ui.addExpense.RealmHelper
 import com.wojtekmalek.expenseslog.util.ItemClickSupport
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.content_home.*
@@ -20,15 +19,15 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
         setSupportActionBar(toolbar)
 
-        list.layoutManager = GridLayoutManager(this, 2)
-        list.adapter = CategoriesAdapter(Category.getDummy())
-        ItemClickSupport.addTo(list).setOnItemClickListener { parent, view, position, id ->
-            AddExpenseItemActivity.startActivity(this@HomeActivity)
-        }
+        initList()
+    }
 
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+    private fun initList() {
+        list.layoutManager = GridLayoutManager(this, 2)
+        val adapter = CategoriesAdapter(RealmHelper.getCategories())
+        list.adapter = adapter
+        ItemClickSupport.addTo(list).setOnItemClickListener { parent, view, position, id ->
+            AddExpenseItemActivity.startActivity(this@HomeActivity, adapter.items[position].id)
         }
     }
 

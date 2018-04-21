@@ -4,10 +4,10 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.mcxiaoke.koi.ext.onClick
+import com.mcxiaoke.koi.ext.toast
 import com.wojtekmalek.expenseslog.R
 import kotlinx.android.synthetic.main.activity_add_expense_item.*
 import kotlinx.android.synthetic.main.content_add_expense_item.*
@@ -19,18 +19,29 @@ import permissions.dispatcher.RuntimePermissions
 @RuntimePermissions
 open class AddExpenseItemActivity : AppCompatActivity() {
 
+    private lateinit var categoryId: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_expense_item)
         setSupportActionBar(toolbar)
+        categoryId = intent.getStringExtra("extra")
 
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+            addExpenseItem()
         }
 
         Speech.init(this, packageName)
         microphone.onClick { speechToTextWithPermissionCheck() }
+    }
+
+    private fun addExpenseItem() {
+        val price = price.text.toString()
+        if (price.isEmpty()) return
+
+        RealmHelper.addExpense(price.toFloat(), categoryId)
+        toast("Add an item for $price")
+        finish()
     }
 
     @NeedsPermission(Manifest.permission.RECORD_AUDIO)
@@ -73,8 +84,10 @@ open class AddExpenseItemActivity : AppCompatActivity() {
     }
 
     companion object {
-        fun startActivity(context: Context) {
-            val intent = Intent(context, AddExpenseItemActivity::class.java)
+        fun startActivity(context: Context, categoryId: String) {
+            val intent = Intent(context, AddExpenseItemActivity::class.java).apply {
+                putExtra("extra", categoryId)
+            }
             context.startActivity(intent)
         }
     }

@@ -1,16 +1,12 @@
 package com.wojtekmalek.expenseslog.model
 
 import io.realm.RealmObject
-import io.realm.annotations.RealmClass
+import io.realm.annotations.PrimaryKey
 
-@RealmClass
 open class Category : RealmObject() {
 
-    var name: String = ""
+    @PrimaryKey
+    open var id: String = ""
 
-    companion object {
-        fun getDummy(): List<Category> {
-            return (0..7).map { Category().apply { name = "Groceries" } }
-        }
-    }
+    open var name: String = ""
 }
