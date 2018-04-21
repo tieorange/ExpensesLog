@@ -8,7 +8,8 @@ import android.view.Menu
 import android.view.MenuItem
 import com.wojtekmalek.expenseslog.R
 import com.wojtekmalek.expenseslog.model.Category
-
+import com.wojtekmalek.expenseslog.ui.addExpense.AddExpenseItemActivity
+import com.wojtekmalek.expenseslog.util.ItemClickSupport
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.content_home.*
 
@@ -21,6 +22,9 @@ class HomeActivity : AppCompatActivity() {
 
         list.layoutManager = GridLayoutManager(this, 2)
         list.adapter = CategoriesAdapter(Category.getDummy())
+        ItemClickSupport.addTo(list).setOnItemClickListener { parent, view, position, id ->
+            AddExpenseItemActivity.startActivity(this@HomeActivity)
+        }
 
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
