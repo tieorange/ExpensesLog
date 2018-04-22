@@ -8,11 +8,6 @@ import io.realm.Realm
 
 class ExpensesApplication : Application() {
 
-    val categoriesList = listOf("Groceries", "Clothes", "Fun", "Electronics", "Bills", "Gas", "Others")
-    val expensesList = listOf(ExpenseItem().apply { timeStamp = ExpenseItem.getDate(21, 4) },
-            ExpenseItem().apply { timeStamp = ExpenseItem.getDate(22, 4) },
-            ExpenseItem().apply { timeStamp = ExpenseItem.getDate(22, 4) })
-
     override fun onCreate() {
         super.onCreate()
 
@@ -24,15 +19,35 @@ class ExpensesApplication : Application() {
     private fun initCategories() {
         if (realm.where(Category::class.java).findAll().isNotEmpty()) return
 
-        categoriesList.mapIndexed { index: Int, item ->
-            Category().apply {
-                id = index.toString()
-                name = item
-            }
-        }.saveAll()
-
+        categoriesList.saveAll()
         expensesList.saveAll()
     }
+
+
+    val categoriesList = listOf("Groceries", "Clothes", "Fun", "Electronics", "Bills", "Gas", "Others").mapIndexed { index: Int, item ->
+        Category().apply {
+            id = index.toString()
+            name = item
+        }
+    }
+
+    val expensesList = listOf(
+            ExpenseItem().apply {
+                timeStamp = ExpenseItem.getDate(21, 4)
+                category = categoriesList[3]
+                price = 13f
+            },
+            ExpenseItem().apply {
+                timeStamp = ExpenseItem.getDate(22, 4)
+                category = categoriesList[0]
+                price = 50f
+            },
+            ExpenseItem().apply {
+                timeStamp = ExpenseItem.getDate(22, 4)
+                category = categoriesList[1]
+                price = 25f
+            })
+
 
     companion object {
         lateinit var realm: Realm

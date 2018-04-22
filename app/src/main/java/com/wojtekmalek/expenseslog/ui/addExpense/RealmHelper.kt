@@ -50,8 +50,7 @@ object RealmHelper {
             else -> R.color.category7
         }
 
-        ContextCompat.getColor(context, colorId)
-
+        return ContextCompat.getColor(context, colorId)
     }
 
 }
