@@ -5,12 +5,12 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
+        android:name=".ExpensesApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name=".ExpensesApplication"
         android:theme="@style/AppTheme">
         <activity
             android:name=".ui.home.HomeActivity"
@@ -25,7 +25,19 @@
         <activity
             android:name=".ui.addExpense.AddExpenseItemActivity"
             android:label="@string/title_activity_add_expense_item"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.history.HistoryActivity"
+            android:label="@string/title_activity_history"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.charts.PipeChartActivity"
+            android:label="@string/title_activity_pipe_chart"
+            android:parentActivityName=".ui.home.HomeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.wojtekmalek.expenseslog.ui.home.HomeActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -5,9 +5,14 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.view.Menu
 import android.view.MenuItem
+import co.zsmb.materialdrawerkt.builders.drawer
+import co.zsmb.materialdrawerkt.draweritems.badgeable.primaryItem
+import co.zsmb.materialdrawerkt.draweritems.divider
 import com.wojtekmalek.expenseslog.R
 import com.wojtekmalek.expenseslog.ui.addExpense.AddExpenseItemActivity
 import com.wojtekmalek.expenseslog.ui.addExpense.RealmHelper
+import com.wojtekmalek.expenseslog.ui.charts.PipeChartActivity
+import com.wojtekmalek.expenseslog.ui.history.HistoryActivity
 import com.wojtekmalek.expenseslog.util.ItemClickSupport
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.content_home.*
@@ -18,6 +23,21 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         setSupportActionBar(toolbar)
+
+        drawer {
+            divider {}
+            primaryItem("History") { }.withOnDrawerItemClickListener { view, position, drawerItem ->
+                HistoryActivity.startActivity(this@HomeActivity)
+                true
+            }
+            primaryItem("Limit") {}
+            primaryItem("Paragons") {}
+            primaryItem("Pipe chart") {}.withOnDrawerItemClickListener { view, position, drawerItem ->
+                PipeChartActivity.startActivity(this@HomeActivity)
+                true
+            }
+            primaryItem("Line chart") {}
+        }
 
         initList()
     }

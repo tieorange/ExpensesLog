@@ -3,4 +3,11 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="category1">@color/material_amber_400</color>
+    <color name="category2">@color/material_blue_400</color>
+    <color name="category3">@color/material_brown_400</color>
+    <color name="category4">@color/material_indigo_400</color>
+    <color name="category5">@color/material_yellow_400</color>
+    <color name="category6">@color/material_pink_400</color>
+    <color name="category7">@color/material_teal_400</color>
 </resources>
