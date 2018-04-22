@@ -1,9 +1,11 @@
 package com.wojtekmalek.expenseslog
 
 import android.app.Application
+import com.orhanobut.hawk.Hawk
 import com.vicpin.krealmextensions.saveAll
 import com.wojtekmalek.expenseslog.model.Category
 import com.wojtekmalek.expenseslog.model.ExpenseItem
+import com.wojtekmalek.expenseslog.ui.addExpense.RealmHelper
 import io.realm.Realm
 
 class ExpensesApplication : Application() {
@@ -11,6 +13,7 @@ class ExpensesApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
+        Hawk.init(this).build()
         Realm.init(this)
         realm = Realm.getDefaultInstance()
         initCategories()
@@ -21,6 +24,7 @@ class ExpensesApplication : Application() {
 
         categoriesList.saveAll()
         expensesList.saveAll()
+        RealmHelper.saveLimit(1000)
     }
 
 

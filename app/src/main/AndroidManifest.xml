@@ -31,8 +31,24 @@
             android:label="@string/title_activity_history"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.charts.PipeChartActivity"
+            android:name=".ui.charts.LineChartActivity"
             android:label="@string/title_activity_pipe_chart"
+            android:parentActivityName=".ui.home.HomeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.wojtekmalek.expenseslog.ui.home.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".ui.charts.PieChartActivity"
+            android:label="@string/title_activity_pipe_chart"
+            android:parentActivityName=".ui.home.HomeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.wojtekmalek.expenseslog.ui.home.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".ui.setLimit.LimitActivity"
+            android:label="@string/title_activity_limit"
             android:parentActivityName=".ui.home.HomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

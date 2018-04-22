@@ -4,4 +4,5 @@
     <string name="title_activity_add_expense_item">AddExpenseItemActivity</string>
     <string name="title_activity_history">HistoryActivity</string>
     <string name="title_activity_pipe_chart">PipeChartActivity</string>
+    <string name="title_activity_limit">LimitActivity</string>
 </resources>

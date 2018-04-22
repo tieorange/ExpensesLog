@@ -11,7 +11,7 @@ import com.github.mikephil.charting.data.BarEntry
 import com.wojtekmalek.expenseslog.ui.addExpense.RealmHelper
 
 
-class PipeChartActivity : Activity() {
+class LineChartActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +20,7 @@ class PipeChartActivity : Activity() {
 
         val dataSet = RealmHelper.getCategories().mapIndexed { index, category ->
             val categoryExpenses = RealmHelper.getExpensesAmountByCategory(category)
-            val colorForCategory = RealmHelper.getColorForCategory(this@PipeChartActivity, category)
+            val colorForCategory = RealmHelper.getColorForCategory(this@LineChartActivity, category)
 
             val barEntries = listOf(BarEntry(categoryExpenses, index.toFloat()))
             BarDataSet(barEntries, category.name).apply {
@@ -30,6 +30,7 @@ class PipeChartActivity : Activity() {
 
         val data = BarData(dataSet)
         chart.data = data
+        chart.invalidate()
     }
 
 
@@ -37,7 +38,7 @@ class PipeChartActivity : Activity() {
         fun startActivity(context: Context) {
             context.startActivity(Intent(
                     context,
-                    PipeChartActivity::class.java
+                    LineChartActivity::class.java
             ))
         }
     }

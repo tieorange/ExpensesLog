@@ -2,6 +2,7 @@ package com.wojtekmalek.expenseslog.ui.addExpense
 
 import android.content.Context
 import android.support.v4.content.ContextCompat
+import com.orhanobut.hawk.Hawk
 import com.wojtekmalek.expenseslog.ExpensesApplication
 import com.wojtekmalek.expenseslog.R
 import com.wojtekmalek.expenseslog.model.Category
@@ -53,4 +54,26 @@ object RealmHelper {
         return ContextCompat.getColor(context, colorId)
     }
 
+    fun getAllColors(context: Context): List<Int> {
+        return listOf(R.color.category1,
+                R.color.category2,
+                R.color.category3,
+                R.color.category4,
+                R.color.category5,
+                R.color.category6,
+                R.color.category7)
+                .map {
+                    ContextCompat.getColor(context, it)
+                }
+    }
+
+    fun saveLimit(limit: Int) {
+        Hawk.put(LIMIT, limit)
+    }
+
+    fun getLimit(): Int {
+        return Hawk.get(LIMIT, 1000)
+    }
+
+    const val LIMIT = "limit"
 }
