@@ -43,7 +43,7 @@ class HomeActivity : AppCompatActivity() {
                 LineChartActivity.startActivity(this@HomeActivity)
                 true
             }
-        }
+        }.apply { setToolbar(this@HomeActivity, toolbar, true) }
 
         initList()
     }

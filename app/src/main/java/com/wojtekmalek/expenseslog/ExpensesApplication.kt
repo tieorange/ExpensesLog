@@ -7,6 +7,7 @@ import com.wojtekmalek.expenseslog.model.Category
 import com.wojtekmalek.expenseslog.model.ExpenseItem
 import com.wojtekmalek.expenseslog.ui.addExpense.RealmHelper
 import io.realm.Realm
+import java.util.*
 
 class ExpensesApplication : Application() {
 
@@ -24,7 +25,7 @@ class ExpensesApplication : Application() {
 
         categoriesList.saveAll()
         expensesList.saveAll()
-        RealmHelper.saveLimit(1000)
+        RealmHelper.saveLimit(RealmHelper.LIMIT_DEFAULT)
     }
 
 
@@ -37,16 +38,19 @@ class ExpensesApplication : Application() {
 
     val expensesList = listOf(
             ExpenseItem().apply {
+                uuid = UUID.randomUUID().toString()
                 timeStamp = ExpenseItem.getDate(21, 4)
                 category = categoriesList[3]
                 price = 13f
             },
             ExpenseItem().apply {
+                uuid = UUID.randomUUID().toString()
                 timeStamp = ExpenseItem.getDate(22, 4)
                 category = categoriesList[0]
                 price = 50f
             },
             ExpenseItem().apply {
+                uuid = UUID.randomUUID().toString()
                 timeStamp = ExpenseItem.getDate(22, 4)
                 category = categoriesList[1]
                 price = 25f

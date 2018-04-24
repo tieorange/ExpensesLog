@@ -8,7 +8,7 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.wojtekmalek.expenseslog"
-        minSdkVersion 24
+        minSdkVersion 21
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -61,6 +61,8 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     implementation 'com.github.zhukic:sectioned-recyclerview:1.1.0'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+    implementation 'com.github.PhilJay:MPAndroidChart-Realm:v3.0.3@aar'
+    implementation 'com.github.IntruderShanky:scatter-piechart:1.0.0'
     implementation 'com.dmitrymalkovich.android:material-design-dimens:1.4'
     implementation 'com.github.vicpinm:krealmextensions:1.0.4'
     implementation('com.github.hotchemi:permissionsdispatcher:3.0.1') {

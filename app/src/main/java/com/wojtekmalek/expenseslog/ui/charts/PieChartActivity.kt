@@ -4,30 +4,33 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import com.github.mikephil.charting.charts.PieChart
-import com.github.mikephil.charting.data.PieData
-import com.github.mikephil.charting.data.PieDataSet
-import com.github.mikephil.charting.data.PieEntry
+import android.support.v4.content.ContextCompat
+import com.intrusoft.scatter.ChartData
+import com.mcxiaoke.koi.log.logd
+import com.wojtekmalek.expenseslog.R
 import com.wojtekmalek.expenseslog.ui.addExpense.RealmHelper
+import kotlinx.android.synthetic.main.pie_chart.*
 
 
 class PieChartActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val chart = PieChart(this)
-        setContentView(chart)
+        setContentView(R.layout.pie_chart)
+
+        val whiteColor = ContextCompat.getColor(this, R.color.material_light_white)
 
         val entries = RealmHelper.getCategories().mapIndexed { index, category ->
+            logd("PieChart", category.toString())
             val categoryExpenses = RealmHelper.getExpensesAmountByCategory(category)
-            PieEntry(categoryExpenses, category.name).apply { y = index.toFloat() }
-        }
+            if (categoryExpenses > 0) {
+                ChartData("${category.name} $categoryExpenses zł", categoryExpenses, whiteColor, RealmHelper.getColorForCategory(this@PieChartActivity, category))
+            } else {
+                null
+            }
+        }.filterNotNull()
 
-        val dataSet = PieDataSet(entries, "").apply { colors = RealmHelper.getAllColors(this@PieChartActivity) }
-
-        val data = PieData(dataSet)
-        chart.data = data
-        chart.invalidate()
+        pieChart.setChartData(entries)
     }
 
 

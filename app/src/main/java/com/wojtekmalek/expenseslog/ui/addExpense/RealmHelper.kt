@@ -72,8 +72,9 @@ object RealmHelper {
     }
 
     fun getLimit(): Int {
-        return Hawk.get(LIMIT, 1000)
+        return Hawk.get(LIMIT, LIMIT_DEFAULT)
     }
 
     const val LIMIT = "limit"
+    const val LIMIT_DEFAULT = 50
 }
