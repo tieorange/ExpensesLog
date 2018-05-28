@@ -7,7 +7,10 @@ import com.wojtekmalek.expenseslog.model.Category
 import com.wojtekmalek.expenseslog.model.ExpenseItem
 import com.wojtekmalek.expenseslog.ui.addExpense.RealmHelper
 import io.realm.Realm
+import io.realm.RealmConfiguration
+import io.realm.exceptions.RealmMigrationNeededException
 import java.util.*
+
 
 class ExpensesApplication : Application() {
 
@@ -15,8 +18,17 @@ class ExpensesApplication : Application() {
         super.onCreate()
 
         Hawk.init(this).build()
-        Realm.init(this)
-        realm = Realm.getDefaultInstance()
+
+        realm = try {
+            Realm.init(this)
+            val config = RealmConfiguration.Builder()
+                    .deleteRealmIfMigrationNeeded()
+                    .build()
+            Realm.getInstance(config)
+        } catch (ex: RealmMigrationNeededException) {
+            Realm.getDefaultInstance()
+        }
+
         initCategories()
     }
 

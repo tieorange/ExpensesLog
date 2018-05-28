@@ -12,6 +12,7 @@ import com.wojtekmalek.expenseslog.ui.addExpense.RealmHelper
 import com.wojtekmalek.expenseslog.ui.charts.LineChartActivity
 import com.wojtekmalek.expenseslog.ui.charts.PieChartActivity
 import com.wojtekmalek.expenseslog.ui.history.HistoryActivity
+import com.wojtekmalek.expenseslog.ui.paragon.ParagonsActivity
 import com.wojtekmalek.expenseslog.ui.setLimit.LimitActivity
 import com.wojtekmalek.expenseslog.util.ItemClickSupport
 import kotlinx.android.synthetic.main.activity_home.*
@@ -26,7 +27,7 @@ class HomeActivity : AppCompatActivity() {
 
         drawer {
             divider {}
-            primaryItem("History") { }.withOnDrawerItemClickListener { view, position, drawerItem ->
+            primaryItem("History") {}.withOnDrawerItemClickListener { view, position, drawerItem ->
                 HistoryActivity.startActivity(this@HomeActivity)
                 true
             }
@@ -34,7 +35,10 @@ class HomeActivity : AppCompatActivity() {
                 LimitActivity.startActivity(this@HomeActivity)
                 true
             }
-            primaryItem("Paragons") {}
+            primaryItem("Paragons") {}.withOnDrawerItemClickListener { view, position, drawerItem ->
+                ParagonsActivity.startActivity(this@HomeActivity)
+                true
+            }
             primaryItem("Pipe chart") {}.withOnDrawerItemClickListener { view, position, drawerItem ->
                 PieChartActivity.startActivity(this@HomeActivity)
                 true

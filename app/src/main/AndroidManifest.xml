@@ -3,6 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name=".ExpensesApplication"
@@ -22,6 +24,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        i
         <activity
             android:name=".ui.addExpense.AddExpenseItemActivity"
             android:label="@string/title_activity_add_expense_item"
@@ -54,6 +57,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.wojtekmalek.expenseslog.ui.home.HomeActivity" />
         </activity>
+        <activity
+            android:name=".ui.paragon.ParagonsActivity"
+            android:label="@string/title_activity_paragons"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

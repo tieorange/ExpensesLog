@@ -8,19 +8,28 @@
     tools:context=".ui.addExpense.AddExpenseItemActivity"
     tools:showIn="@layout/activity_add_expense_item">
 
-    <TextView
-        android:id="@+id/price"
-        android:layout_width="wrap_content"
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/priceEditTextLayout"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-        tools:text="130PLN" />
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/priceEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter price...."
+            android:inputType="numberDecimal"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+    </android.support.design.widget.TextInputLayout>
 
     <ImageButton
         android:id="@+id/microphone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/price"
+        android:layout_below="@id/priceEditTextLayout"
         android:layout_centerHorizontal="true"
         android:layout_margin="16dp"
         android:background="@null"

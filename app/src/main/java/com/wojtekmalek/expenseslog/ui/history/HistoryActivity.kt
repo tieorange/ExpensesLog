@@ -3,7 +3,6 @@ package com.wojtekmalek.expenseslog.ui.history
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import com.wojtekmalek.expenseslog.R
@@ -17,11 +16,6 @@ class HistoryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_history)
         setSupportActionBar(toolbar)
-
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        }
 
         list.layoutManager = LinearLayoutManager(this)
         val expenses = RealmHelper.getExpenses()

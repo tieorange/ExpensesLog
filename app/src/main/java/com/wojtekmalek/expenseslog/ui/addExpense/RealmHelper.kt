@@ -15,8 +15,8 @@ object RealmHelper {
 
     fun addExpense(price: Float, categoryId: String) {
         realm.executeTransaction {
-            val expenseItem = ExpensesApplication.realm.createObject(ExpenseItem::class.java)
-            expenseItem.uuid = UUID.randomUUID().toString()
+            val uuid = UUID.randomUUID().toString()
+            val expenseItem = realm.createObject(ExpenseItem::class.java, uuid)
             expenseItem.price = price
             expenseItem.timeStamp = Date().time
             val category = realm.where(Category::class.java).equalTo("id", categoryId).findFirst()

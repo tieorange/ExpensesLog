@@ -1,6 +1,7 @@
 package com.wojtekmalek.expenseslog.ui.addExpense
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -35,12 +36,20 @@ open class AddExpenseItemActivity : AppCompatActivity() {
         microphone.onClick { speechToTextWithPermissionCheck() }
     }
 
+    private fun onSpeechRecognized(result: String) {
+        priceEditText.text.clear()
+        priceEditText.text.insert(0, result)
+    }
+
     private fun addExpenseItem() {
-        val price = price.text.toString()
-        if (price.isEmpty()) return
+        val price = priceEditText.text.toString()
+        if (price.isEmpty()) {
+            toast("Price can't be empty")
+            return
+        }
 
         RealmHelper.addExpense(price.toFloat(), categoryId)
-        toast("Add an item for $price")
+        toast("Add an item for $price zł")
         finish()
     }
 
@@ -66,7 +75,7 @@ open class AddExpenseItemActivity : AppCompatActivity() {
                 }
 
                 override fun onSpeechResult(result: String) {
-                    price.text = result
+                    onSpeechRecognized(result)
                 }
             })
         } catch (exc: SpeechRecognitionNotAvailable) {
@@ -76,6 +85,13 @@ open class AddExpenseItemActivity : AppCompatActivity() {
             Log.e("speech", "Google voice typing must be enabled!")
         }
 
+    }
+
+    @SuppressLint("NeedOnRequestPermissionsResult")
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        // NOTE: delegate the permission handling to generated function
+        onRequestPermissionsResult(requestCode, grantResults)
     }
 
     override fun onDestroy() {
