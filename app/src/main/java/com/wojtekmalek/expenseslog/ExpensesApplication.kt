@@ -22,8 +22,10 @@ class ExpensesApplication : Application() {
         realm = try {
             Realm.init(this)
             val config = RealmConfiguration.Builder()
+                    .schemaVersion(4)
                     .deleteRealmIfMigrationNeeded()
                     .build()
+            Realm.setDefaultConfiguration(config);
             Realm.getInstance(config)
         } catch (ex: RealmMigrationNeededException) {
             Realm.getDefaultInstance()

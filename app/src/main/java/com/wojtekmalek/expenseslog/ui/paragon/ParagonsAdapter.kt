@@ -1,6 +1,5 @@
 package com.wojtekmalek.expenseslog.ui.paragon
 
-import android.graphics.Bitmap
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -8,8 +7,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
-import com.vicpin.krealmextensions.save
 import com.wojtekmalek.expenseslog.R
+import com.wojtekmalek.expenseslog.ui.addExpense.RealmHelper
 import com.wojtekmalek.expenseslog.ui.history.hasSameDayOfMonth
 import com.wojtekmalek.expenseslog.util.bindView
 import com.zhukic.sectionedrecyclerview.SectionedRecyclerViewAdapter
@@ -44,12 +43,12 @@ class ParagonsAdapter(items: List<ParagonItem>) : SectionedRecyclerViewAdapter<P
 
     override fun getItemSize() = items.size
 
-    fun addNew(bitmap: Bitmap, currentPictureId: String) {
+    fun addNew(currentPictureId: String) {
         val paragonItem = ParagonItem().apply {
             uuid = currentPictureId
             timeStamp = Date().time
         }
-        paragonItem.save()
+        RealmHelper.addParagon(paragonItem)
         items.add(paragonItem)
         notifyDataChanged()
     }

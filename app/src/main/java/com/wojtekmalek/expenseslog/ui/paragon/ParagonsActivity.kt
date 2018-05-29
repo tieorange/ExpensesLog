@@ -2,28 +2,26 @@ package com.wojtekmalek.expenseslog.ui.paragon
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.widget.Toast
-import com.frosquivel.magicalcamera.MagicalCamera
-import com.frosquivel.magicalcamera.MagicalPermissions
-import com.mcxiaoke.koi.ext.toast
+import com.mcxiaoke.koi.log.logd
 import com.wojtekmalek.expenseslog.R
+import com.wojtekmalek.expenseslog.ui.addExpense.RealmHelper
 import kotlinx.android.synthetic.main.activity_paragons.*
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.RuntimePermissions
-import java.util.*
+import pl.aprilapps.easyphotopicker.DefaultCallback
+import pl.aprilapps.easyphotopicker.EasyImage
+import java.io.File
 
 
 @RuntimePermissions
 class ParagonsActivity : AppCompatActivity() {
 
-    lateinit var camera: MagicalCamera
     val paragonsAdapter = ParagonsAdapter(ParagonItem.getDummy())
     lateinit var currentPictureId: String
 
@@ -39,43 +37,34 @@ class ParagonsActivity : AppCompatActivity() {
 
         list.layoutManager = LinearLayoutManager(this)
         list.adapter = paragonsAdapter
+
+        EasyImage.configuration(this)
+                .setImagesFolderName("Paragons") // images folder name, default is "EasyImage"
+                .saveInRootPicturesDirectory(); // if you want to use internal memory for storying images - default
+
+        RealmHelper.getAllParagons().forEach {
+            logd { it.uuid }
+        }
     }
 
     @NeedsPermission(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
     fun takePicture() {
-        currentPictureId = UUID.randomUUID().toString()
-
-        val RESIZE_PHOTO_PIXELS_PERCENTAGE = 75
-        val permissions = arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
-        val magicalPermissions = MagicalPermissions(this, permissions)
-        camera = MagicalCamera(this, RESIZE_PHOTO_PIXELS_PERCENTAGE, magicalPermissions)
-
-        // Call the camera takePicture method to open the existing camera
-        try {
-            camera.takePhoto()
-        } catch (e: Exception) {
-            toast("Can't take a picture")
-        }
+        EasyImage.openChooserWithGallery(this, "Choose paragon", 0)
     }
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         super.onActivityResult(requestCode, resultCode, data)
 
-
-        if (resultCode == Activity.RESULT_OK) {
-            //you should to call the method ever, for obtain the bitmap photo (= magicalCamera.getPhoto())
-            camera.resultPhoto(requestCode, resultCode, data);
-            //if you need save your bitmap in device use this method and return the path if you need this
-            //You need to send, the bitmap picture, the photo name, the directory name, the picture type, and autoincrement photo name if           //you need this send true, else you have the posibility or realize your standard name for your pictures.
-            val path = camera.savePhotoInMemoryDevice(camera.getPhoto(), currentPictureId, "paragons", MagicalCamera.JPEG, true)
-            paragonsAdapter.addNew(camera.photo, path)
-
-            if (path != null) {
-                Toast.makeText(this, "The photo is save in device, please check this path: $path", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(this, "Sorry your photo dont write in devide, please contact with fabian7593@gmail and say this error", Toast.LENGTH_SHORT).show()
+        EasyImage.handleActivityResult(requestCode, resultCode, data, this, object : DefaultCallback() {
+            override fun onImagePicked(imageFile: File?, source: EasyImage.ImageSource?, type: Int) {
+                paragonsAdapter.addNew(imageFile?.absolutePath ?: "")
             }
-        }
+
+            override fun onImagePickerError(e: Exception?, source: EasyImage.ImageSource?, type: Int) {
+                //Some error handling
+            }
+
+        })
     }
 
     @SuppressLint("NeedOnRequestPermissionsResult")
