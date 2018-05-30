@@ -25,6 +25,8 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
         setSupportActionBar(toolbar)
 
+        ParagonsActivity.startActivity(this@HomeActivity)
+
         drawer {
             divider {}
             primaryItem("History") {}.withOnDrawerItemClickListener { view, position, drawerItem ->

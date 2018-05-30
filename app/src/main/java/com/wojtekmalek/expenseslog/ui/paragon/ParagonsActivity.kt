@@ -22,7 +22,7 @@ import java.io.File
 @RuntimePermissions
 class ParagonsActivity : AppCompatActivity() {
 
-    val paragonsAdapter = ParagonsAdapter(ParagonItem.getDummy())
+    val paragonsAdapter = ParagonsAdapter()
     lateinit var currentPictureId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,7 +61,6 @@ class ParagonsActivity : AppCompatActivity() {
             }
 
             override fun onImagePickerError(e: Exception?, source: EasyImage.ImageSource?, type: Int) {
-                //Some error handling
             }
 
         })
