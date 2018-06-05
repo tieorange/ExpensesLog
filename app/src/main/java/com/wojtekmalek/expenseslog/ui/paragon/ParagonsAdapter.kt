@@ -13,25 +13,21 @@ import com.wojtekmalek.expenseslog.ui.addExpense.RealmHelper
 import com.wojtekmalek.expenseslog.ui.history.hasSameDayOfMonth
 import com.wojtekmalek.expenseslog.util.bindView
 import com.zhukic.sectionedrecyclerview.SectionedRecyclerViewAdapter
-import io.reactivex.android.schedulers.AndroidSchedulers
+import io.realm.RealmResults
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ParagonsAdapter() : SectionedRecyclerViewAdapter<ParagonsAdapter.SubheaderViewHolder, ParagonsAdapter.ItemViewHolder>() {
+class ParagonsAdapter(allParagons: List<ParagonItem>) : SectionedRecyclerViewAdapter<ParagonsAdapter.SubheaderViewHolder, ParagonsAdapter.ItemViewHolder>() {
 
-    private val items = arrayListOf<ParagonItem>()
+    val items = arrayListOf<ParagonItem>().apply { addAll(allParagons) }
 
     init {
-        items.addAll(RealmHelper.getAllParagons())
-
-        ExpensesApplication.realm.where(ParagonItem::class.java).findAll().asChangesetObservable()
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ results ->
-                    this.items.clear()
-                    this.items.addAll(results.collection.sortedBy { it.timeStamp })
-                    notifyDataSetChanged()
-                })
+        ExpensesApplication.realm.where(ParagonItem::class.java).findAll().addChangeListener { results: RealmResults<ParagonItem> ->
+            this.items.clear()
+            notifyDataChanged()
+            this.items.addAll(results.sortedBy { it.timeStamp })
+            notifyDataChanged()
+        }
     }
 
     override fun onPlaceSubheaderBetweenItems(position: Int): Boolean {
@@ -54,12 +50,31 @@ class ParagonsAdapter() : SectionedRecyclerViewAdapter<ParagonsAdapter.Subheader
 
     override fun getItemSize() = items.size
 
+
     fun addNew(currentPictureId: String) {
         val paragonItem = ParagonItem().apply {
             uuid = currentPictureId
-            timeStamp = Date().time
+            //            timeStamp = Date().time
+            timeStamp = randomDay()
         }
         RealmHelper.addParagon(paragonItem)
+    }
+
+    private fun randomDay(): Long {
+        val rnd: Random
+        val dt: Date
+        val ms: Long
+
+        // Get a new random instance, seeded from the clock
+        rnd = Random()
+
+        // Get an Epoch value roughly between 1940 and 2010
+        // -946771200000L = January 1, 1940
+        // Add up to 70 years to it (using modulus on the next long)
+        ms = -946771200000L + Math.abs(rnd.nextLong()) % (70L * 365 * 24 * 60 * 60 * 1000)
+
+        // Construct a date
+        return Date(ms).time
     }
 
     class SubheaderViewHolder(itemView: View)

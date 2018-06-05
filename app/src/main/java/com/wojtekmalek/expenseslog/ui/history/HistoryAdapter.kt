@@ -69,6 +69,6 @@ class HistoryAdapter(val items: List<ExpenseItem>) : SectionedRecyclerViewAdapte
 }
 
 fun Long.hasSameDayOfMonth(timeStamp: Long): Boolean {
-    val fmt = SimpleDateFormat("yyyyMMdd", Locale.getDefault())
+    val fmt = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
     return fmt.format(Date(this)) == fmt.format(Date(timeStamp))
 }

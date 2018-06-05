@@ -5,9 +5,9 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import com.mcxiaoke.koi.ext.toast
 import com.mcxiaoke.koi.log.logd
 import com.wojtekmalek.expenseslog.R
 import com.wojtekmalek.expenseslog.ui.addExpense.RealmHelper
@@ -22,7 +22,7 @@ import java.io.File
 @RuntimePermissions
 class ParagonsActivity : AppCompatActivity() {
 
-    val paragonsAdapter = ParagonsAdapter()
+    val paragonsAdapter by lazy { ParagonsAdapter((RealmHelper.getAllParagons())) }
     lateinit var currentPictureId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,8 +31,6 @@ class ParagonsActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         fab.setOnClickListener { view ->
             takePictureWithPermissionCheck()
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
         }
 
         list.layoutManager = LinearLayoutManager(this)
@@ -52,8 +50,9 @@ class ParagonsActivity : AppCompatActivity() {
         EasyImage.openChooserWithGallery(this, "Choose paragon", 0)
     }
 
-    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        if (data == null) return
 
         EasyImage.handleActivityResult(requestCode, resultCode, data, this, object : DefaultCallback() {
             override fun onImagePicked(imageFile: File?, source: EasyImage.ImageSource?, type: Int) {
@@ -61,9 +60,19 @@ class ParagonsActivity : AppCompatActivity() {
             }
 
             override fun onImagePickerError(e: Exception?, source: EasyImage.ImageSource?, type: Int) {
+                toast("error")
             }
 
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        paragonsAdapter.apply {
+            items.clear()
+            items.addAll(RealmHelper.getAllParagons())
+        }
+
     }
 
     @SuppressLint("NeedOnRequestPermissionsResult")
