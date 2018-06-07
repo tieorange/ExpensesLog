@@ -14,23 +14,58 @@ import kotlinx.android.synthetic.main.pie_chart.*
 
 class PieChartActivity : Activity() {
 
+    private val whiteColor by lazy {
+        ContextCompat.getColor(this, R.color.material_light_white)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.pie_chart)
 
-        val whiteColor = ContextCompat.getColor(this, R.color.material_light_white)
+        initPieChart()
+//        initSimpleChart()
+    }
 
+    private fun initPieChart() {
         val entries = RealmHelper.getCategories().mapIndexed { index, category ->
             logd("PieChart", category.toString())
             val categoryExpenses = RealmHelper.getExpensesAmountByCategory(category)
             if (categoryExpenses > 0) {
-                ChartData("${category.name} $categoryExpenses zł", categoryExpenses, whiteColor, RealmHelper.getColorForCategory(this@PieChartActivity, category))
+                ChartData(
+                        "${category.name} $categoryExpenses zł",
+                        categoryExpenses,
+                        whiteColor,
+                        RealmHelper.getColorForCategory(this@PieChartActivity, category)
+                )
             } else {
                 null
             }
         }.filterNotNull()
 
-        pieChart.setChartData(entries)
+        if (entries.isNotEmpty()) {
+            pieChart.setChartData(entries)
+        }
+    }
+
+    private fun initSimpleChart() {
+        val entries = RealmHelper.getCategories().mapIndexed { index, category ->
+            logd("PieChart", category.toString())
+            val categoryExpenses = RealmHelper.getExpensesAmountByCategory(category)
+            if (categoryExpenses > 0) {
+                ChartData(
+                        "${category.name} $categoryExpenses zł",
+                        categoryExpenses,
+                        whiteColor,
+                        RealmHelper.getColorForCategory(this@PieChartActivity, category)
+                )
+            } else {
+                null
+            }
+        }.filterNotNull()
+
+        if (entries.isNotEmpty()) {
+            pieChart.setChartData(entries)
+        }
     }
 
 

@@ -56,10 +56,12 @@ class HistoryAdapter(val items: List<ExpenseItem>) : SectionedRecyclerViewAdapte
         : RecyclerView.ViewHolder(itemView) {
 
         val price: TextView by bindView(R.id.price)
+        val category: TextView by bindView(R.id.category)
         val container: LinearLayout by bindView(R.id.historyItemContainer)
 
         fun bind(expenseItem: ExpenseItem) {
             price.text = expenseItem.price.toString()
+            category.text = expenseItem.category?.name ?: ""
             expenseItem.category?.let {
                 val colorForCategory = RealmHelper.getColorForCategory(itemView.context, it)
                 container.setBackgroundColor(colorForCategory)

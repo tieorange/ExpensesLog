@@ -5,11 +5,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.intrusoft.scatter.SimpleChart
+    <com.intrusoft.scatter.PieChart
         android:id="@+id/pieChart"
         android:layout_width="match_parent"
-        scatter:equalPartition="false"
         android:layout_height="match_parent"
-        scatter:textSize="8" />
+        scatter:equalPartition="true"
+        scatter:textColor="@color/material_blue_grey_200"
+        scatter:textSize="39" />
 
 </LinearLayout>
