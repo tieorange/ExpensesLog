@@ -11,11 +11,9 @@ open class ParagonItem : RealmObject() {
     open var uuid: String = ""
 
     private var dateString: String = ""
+        get() = timeStamp.asDateString()
+
     open var timeStamp: Long = 0L
-        set(value) {
-            field = value
-            dateString = value.asDateString()
-        }
 
     companion object {
         fun getDummy(): List<ParagonItem> {

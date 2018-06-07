@@ -4,12 +4,10 @@ import android.app.Application
 import com.orhanobut.hawk.Hawk
 import com.vicpin.krealmextensions.saveAll
 import com.wojtekmalek.expenseslog.model.Category
-import com.wojtekmalek.expenseslog.model.ExpenseItem
 import com.wojtekmalek.expenseslog.ui.addExpense.RealmHelper
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import io.realm.exceptions.RealmMigrationNeededException
-import java.util.*
 
 
 class ExpensesApplication : Application() {
@@ -22,7 +20,7 @@ class ExpensesApplication : Application() {
         realm = try {
             Realm.init(this)
             val config = RealmConfiguration.Builder()
-                    .schemaVersion(5)
+                    .schemaVersion(6)
                     .deleteRealmIfMigrationNeeded()
                     .build()
             Realm.setDefaultConfiguration(config);
@@ -38,7 +36,6 @@ class ExpensesApplication : Application() {
         if (realm.where(Category::class.java).findAll().isNotEmpty()) return
 
         categoriesList.saveAll()
-        expensesList.saveAll()
         RealmHelper.saveLimit(RealmHelper.LIMIT_DEFAULT)
     }
 
@@ -49,26 +46,6 @@ class ExpensesApplication : Application() {
             name = item
         }
     }
-
-    val expensesList = listOf(
-            ExpenseItem().apply {
-                uuid = UUID.randomUUID().toString()
-                timeStamp = ExpenseItem.getDate(21, 4)
-                category = categoriesList[3]
-                price = 13f
-            },
-            ExpenseItem().apply {
-                uuid = UUID.randomUUID().toString()
-                timeStamp = ExpenseItem.getDate(22, 4)
-                category = categoriesList[0]
-                price = 50f
-            },
-            ExpenseItem().apply {
-                uuid = UUID.randomUUID().toString()
-                timeStamp = ExpenseItem.getDate(22, 4)
-                category = categoriesList[1]
-                price = 25f
-            })
 
 
     companion object {

@@ -8,6 +8,7 @@ import com.wojtekmalek.expenseslog.R
 import com.wojtekmalek.expenseslog.model.Category
 import com.wojtekmalek.expenseslog.model.ExpenseItem
 import com.wojtekmalek.expenseslog.ui.paragon.ParagonItem
+import io.realm.Sort
 import io.realm.kotlin.where
 import java.util.*
 
@@ -77,7 +78,7 @@ object RealmHelper {
     }
 
     fun getAllParagons(): List<ParagonItem> {
-        return realm.where(ParagonItem::class.java).findAll()
+        return realm.where(ParagonItem::class.java).sort("timeStamp", Sort.DESCENDING).findAll()
     }
 
     fun addParagon(paragonItem: ParagonItem) {
