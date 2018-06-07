@@ -22,7 +22,8 @@ import java.io.File
 @RuntimePermissions
 class ParagonsActivity : AppCompatActivity() {
 
-    val paragonsAdapter by lazy { ParagonsAdapter((RealmHelper.getAllParagons())) }
+    lateinit var paragonsAdapter: ParagonsAdapter
+
     lateinit var currentPictureId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,8 +34,7 @@ class ParagonsActivity : AppCompatActivity() {
             takePictureWithPermissionCheck()
         }
 
-        list.layoutManager = LinearLayoutManager(this)
-        list.adapter = paragonsAdapter
+        initParagonsList()
 
         EasyImage.configuration(this)
                 .setImagesFolderName("Paragons") // images folder name, default is "EasyImage"
@@ -43,6 +43,15 @@ class ParagonsActivity : AppCompatActivity() {
         RealmHelper.getAllParagons().forEach {
             logd { it.uuid }
         }
+    }
+
+    private fun initParagonsList() {
+        paragonsAdapter = ParagonsAdapter(
+                RealmHelper.getAllParagons(),
+                { initParagonsList() }
+        )
+        list.layoutManager = LinearLayoutManager(this)
+        list.adapter = paragonsAdapter
     }
 
     @NeedsPermission(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)

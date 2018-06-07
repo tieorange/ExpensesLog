@@ -17,7 +17,7 @@ import io.realm.RealmResults
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ParagonsAdapter(allParagons: List<ParagonItem>) : SectionedRecyclerViewAdapter<ParagonsAdapter.SubheaderViewHolder, ParagonsAdapter.ItemViewHolder>() {
+class ParagonsAdapter(allParagons: List<ParagonItem>, private val updateData: () -> Unit) : SectionedRecyclerViewAdapter<ParagonsAdapter.SubheaderViewHolder, ParagonsAdapter.ItemViewHolder>() {
 
     val items = arrayListOf<ParagonItem>().apply { addAll(allParagons) }
 
@@ -54,10 +54,13 @@ class ParagonsAdapter(allParagons: List<ParagonItem>) : SectionedRecyclerViewAda
     fun addNew(currentPictureId: String) {
         val paragonItem = ParagonItem().apply {
             uuid = currentPictureId
+            // TODO: mock
             //            timeStamp = Date().time
             timeStamp = randomDay()
         }
         RealmHelper.addParagon(paragonItem)
+
+        updateData()
     }
 
     private fun randomDay(): Long {
