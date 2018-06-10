@@ -6,6 +6,7 @@ import android.support.v7.widget.GridLayoutManager
 import co.zsmb.materialdrawerkt.builders.drawer
 import co.zsmb.materialdrawerkt.draweritems.badgeable.primaryItem
 import co.zsmb.materialdrawerkt.draweritems.divider
+import com.mcxiaoke.koi.ext.onClick
 import com.wojtekmalek.expenseslog.R
 import com.wojtekmalek.expenseslog.ui.addExpense.AddExpenseItemActivity
 import com.wojtekmalek.expenseslog.ui.addExpense.RealmHelper
@@ -25,6 +26,8 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
         setSupportActionBar(toolbar)
 
+        fab.onClick { addParagonPhoto() }
+
         drawer {
             divider {}
             closeOnClick = true
@@ -37,7 +40,7 @@ class HomeActivity : AppCompatActivity() {
                 false
             }
             primaryItem("Paragons") {}.withOnDrawerItemClickListener { view, position, drawerItem ->
-                ParagonsActivity.startActivity(this@HomeActivity)
+                ParagonsActivity.startActivity(this@HomeActivity, false)
                 false
             }
             primaryItem("Pipe chart") {}.withOnDrawerItemClickListener { view, position, drawerItem ->
@@ -51,6 +54,10 @@ class HomeActivity : AppCompatActivity() {
         }.apply { setToolbar(this@HomeActivity, toolbar, true) }
 
         initList()
+    }
+
+    private fun addParagonPhoto() {
+        ParagonsActivity.startActivity(this, true)
     }
 
     private fun initList() {

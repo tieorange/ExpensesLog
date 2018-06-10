@@ -43,6 +43,10 @@ class ParagonsActivity : AppCompatActivity() {
         RealmHelper.getAllParagons().forEach {
             logd { it.uuid }
         }
+
+        if (intent.getBooleanExtra(SHOULD_START_PHOTO_PICKER, false)) {
+            takePictureWithPermissionCheck()
+        }
     }
 
     private fun initParagonsList() {
@@ -61,7 +65,7 @@ class ParagonsActivity : AppCompatActivity() {
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (data == null) return
+//        if (data == null) return
 
         EasyImage.handleActivityResult(requestCode, resultCode, data, this, object : DefaultCallback() {
             override fun onImagePicked(imageFile: File?, source: EasyImage.ImageSource?, type: Int) {
@@ -92,11 +96,15 @@ class ParagonsActivity : AppCompatActivity() {
     }
 
     companion object {
-        fun startActivity(context: Context) {
+        val SHOULD_START_PHOTO_PICKER = "start"
+        fun startActivity(context: Context, startPhotoPicker: Boolean) {
             context.startActivity(Intent(
                     context,
                     ParagonsActivity::class.java
-            ))
+            ).apply {
+                putExtra(SHOULD_START_PHOTO_PICKER, startPhotoPicker)
+            }
+            )
         }
     }
 }
