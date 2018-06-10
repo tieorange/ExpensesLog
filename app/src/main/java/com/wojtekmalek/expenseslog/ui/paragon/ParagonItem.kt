@@ -1,5 +1,6 @@
 package com.wojtekmalek.expenseslog.ui.paragon
 
+import com.mcxiaoke.koi.ext.asDateString
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 import java.util.*
@@ -8,6 +9,9 @@ open class ParagonItem : RealmObject() {
 
     @PrimaryKey
     open var uuid: String = ""
+
+    private var dateString: String = ""
+        get() = timeStamp.asDateString()
 
     open var timeStamp: Long = 0L
 

@@ -7,6 +7,8 @@ import com.wojtekmalek.expenseslog.ExpensesApplication
 import com.wojtekmalek.expenseslog.R
 import com.wojtekmalek.expenseslog.model.Category
 import com.wojtekmalek.expenseslog.model.ExpenseItem
+import com.wojtekmalek.expenseslog.ui.paragon.ParagonItem
+import io.realm.Sort
 import io.realm.kotlin.where
 import java.util.*
 
@@ -75,6 +77,16 @@ object RealmHelper {
         return Hawk.get(LIMIT, LIMIT_DEFAULT)
     }
 
-    const val LIMIT = "limit"
+    fun getAllParagons(): List<ParagonItem> {
+        return realm.where(ParagonItem::class.java).sort("timeStamp", Sort.DESCENDING).findAll()
+    }
+
+    fun addParagon(paragonItem: ParagonItem) {
+        realm.executeTransaction {
+            realm.copyToRealmOrUpdate(paragonItem)
+        }
+    }
+
+    private const val LIMIT = "limit"
     const val LIMIT_DEFAULT = 50
 }

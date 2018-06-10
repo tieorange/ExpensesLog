@@ -1,27 +1,36 @@
 package com.wojtekmalek.expenseslog.ui.paragon
 
-import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import com.squareup.picasso.Picasso
-import com.vicpin.krealmextensions.save
+import com.wojtekmalek.expenseslog.ExpensesApplication
 import com.wojtekmalek.expenseslog.R
+import com.wojtekmalek.expenseslog.ui.addExpense.RealmHelper
 import com.wojtekmalek.expenseslog.ui.history.hasSameDayOfMonth
 import com.wojtekmalek.expenseslog.util.bindView
 import com.zhukic.sectionedrecyclerview.SectionedRecyclerViewAdapter
+import io.realm.RealmResults
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ParagonsAdapter(items: List<ParagonItem>) : SectionedRecyclerViewAdapter<ParagonsAdapter.SubheaderViewHolder, ParagonsAdapter.ItemViewHolder>() {
+class ParagonsAdapter(
+        allParagons: List<ParagonItem>,
+        private val updateData: () -> Unit
+) : SectionedRecyclerViewAdapter<ParagonsAdapter.SubheaderViewHolder, ParagonsAdapter.ItemViewHolder>() {
 
-    private val items = arrayListOf<ParagonItem>()
+    val items = arrayListOf<ParagonItem>().apply { addAll(allParagons) }
 
     init {
-        this.items.addAll(items.sortedBy { it.timeStamp })
+        ExpensesApplication.realm.where(ParagonItem::class.java).findAll().addChangeListener { results: RealmResults<ParagonItem> ->
+            this.items.clear()
+            notifyDataChanged()
+            this.items.addAll(results.sortedBy { it.timeStamp })
+            notifyDataChanged()
+        }
     }
 
     override fun onPlaceSubheaderBetweenItems(position: Int): Boolean {
@@ -44,14 +53,14 @@ class ParagonsAdapter(items: List<ParagonItem>) : SectionedRecyclerViewAdapter<P
 
     override fun getItemSize() = items.size
 
-    fun addNew(bitmap: Bitmap, currentPictureId: String) {
+    fun addNew(currentPictureId: String) {
         val paragonItem = ParagonItem().apply {
             uuid = currentPictureId
             timeStamp = Date().time
         }
-        paragonItem.save()
-        items.add(paragonItem)
-        notifyDataChanged()
+        RealmHelper.addParagon(paragonItem)
+
+        updateData()
     }
 
     class SubheaderViewHolder(itemView: View)
@@ -65,15 +74,18 @@ class ParagonsAdapter(items: List<ParagonItem>) : SectionedRecyclerViewAdapter<P
         }
     }
 
-    inner class ItemViewHolder(private val item: View)
+    inner class ItemViewHolder(item: View)
         : RecyclerView.ViewHolder(item) {
 
         val image: ImageView by bindView(R.id.image)
 
         fun bind(expenseItem: ParagonItem) {
             // TODO: mock
-            if (!expenseItem.uuid.isBlank())
-                Picasso.get().load(expenseItem.uuid).into(image);
+            val path = expenseItem.uuid
+            if (!path.isBlank()) {
+                val bitmap = BitmapFactory.decodeFile(path)
+                image.setImageBitmap(bitmap)
+            }
 
             //            image.setImageDrawable(ContextCompat.getDrawable(item.context, R.mipmap.ic_launcher))
         }

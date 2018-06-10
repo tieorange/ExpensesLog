@@ -1,9 +1,8 @@
 <resources>
     <string name="app_name">Expenses Log</string>
-    <string name="action_settings">Settings</string>
     <string name="title_activity_add_expense_item">Add expense</string>
     <string name="title_activity_history">History</string>
     <string name="title_activity_pipe_chart">Pipe Chart</string>
     <string name="title_activity_limit">Limit</string>
-    <string name="title_activity_paragons">ParagonsActivity</string>
+    <string name="title_activity_paragons">Paragons</string>
 </resources>

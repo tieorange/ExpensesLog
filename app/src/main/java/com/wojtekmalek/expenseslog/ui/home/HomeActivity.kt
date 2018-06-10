@@ -6,6 +6,7 @@ import android.support.v7.widget.GridLayoutManager
 import co.zsmb.materialdrawerkt.builders.drawer
 import co.zsmb.materialdrawerkt.draweritems.badgeable.primaryItem
 import co.zsmb.materialdrawerkt.draweritems.divider
+import com.mcxiaoke.koi.ext.onClick
 import com.wojtekmalek.expenseslog.R
 import com.wojtekmalek.expenseslog.ui.addExpense.AddExpenseItemActivity
 import com.wojtekmalek.expenseslog.ui.addExpense.RealmHelper
@@ -25,31 +26,38 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
         setSupportActionBar(toolbar)
 
+        fab.onClick { addParagonPhoto() }
+
         drawer {
             divider {}
+            closeOnClick = true
             primaryItem("History") {}.withOnDrawerItemClickListener { view, position, drawerItem ->
                 HistoryActivity.startActivity(this@HomeActivity)
-                true
+                false
             }
             primaryItem("Limit") {}.withOnDrawerItemClickListener { view, position, drawerItem ->
                 LimitActivity.startActivity(this@HomeActivity)
-                true
+                false
             }
             primaryItem("Paragons") {}.withOnDrawerItemClickListener { view, position, drawerItem ->
-                ParagonsActivity.startActivity(this@HomeActivity)
-                true
+                ParagonsActivity.startActivity(this@HomeActivity, false)
+                false
             }
             primaryItem("Pipe chart") {}.withOnDrawerItemClickListener { view, position, drawerItem ->
                 PieChartActivity.startActivity(this@HomeActivity)
-                true
+                false
             }
             primaryItem("Line chart") {}.withOnDrawerItemClickListener { view, position, drawerItem ->
                 LineChartActivity.startActivity(this@HomeActivity)
-                true
+                false
             }
         }.apply { setToolbar(this@HomeActivity, toolbar, true) }
 
         initList()
+    }
+
+    private fun addParagonPhoto() {
+        ParagonsActivity.startActivity(this, true)
     }
 
     private fun initList() {

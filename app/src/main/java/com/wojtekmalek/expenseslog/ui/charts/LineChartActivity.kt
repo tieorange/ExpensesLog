@@ -27,7 +27,7 @@ class LineChartActivity : Activity() {
             val colorForCategory = RealmHelper.getColorForCategory(this@LineChartActivity, category)
 
             if (categoryExpenses > 0) {
-                val barEntries = listOf(BarEntry(++entryIndex, categoryExpenses))
+                val barEntries = listOf(BarEntry(entryIndex++, categoryExpenses))
                 BarDataSet(barEntries, category.name).apply {
                     color = colorForCategory
                 }
@@ -50,11 +50,11 @@ class LineChartActivity : Activity() {
             setDrawGridLines(false)
             setDrawAxisLine(false)
         }
+//        chart.xAxis.isEnabled = false
 
         chart.animateY(1000)
         chart.description = Description().apply { text = "" }
         chart.extraRightOffset = 30f
-
 
         chart.invalidate()
     }
