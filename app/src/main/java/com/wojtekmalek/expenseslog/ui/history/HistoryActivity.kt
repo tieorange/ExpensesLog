@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import com.wojtekmalek.expenseslog.R
+import com.wojtekmalek.expenseslog.R.id.toolbar
 import com.wojtekmalek.expenseslog.ui.addExpense.RealmHelper
 import kotlinx.android.synthetic.main.activity_history.*
 import kotlinx.android.synthetic.main.content_history.*

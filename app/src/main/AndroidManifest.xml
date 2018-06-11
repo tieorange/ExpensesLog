@@ -25,7 +25,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        i
+
         <activity
             android:name=".ui.addExpense.AddExpenseItemActivity"
             android:label="@string/title_activity_add_expense_item"
@@ -62,6 +62,17 @@
             android:name=".ui.paragon.ParagonsActivity"
             android:label="@string/title_activity_paragons"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.wojtekmalek.expenseslog.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths">
+            </meta-data>
+        </provider>
     </application>
 
 </manifest>
