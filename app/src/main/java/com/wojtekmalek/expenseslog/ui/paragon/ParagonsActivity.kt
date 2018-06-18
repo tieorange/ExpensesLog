@@ -11,8 +11,8 @@ import android.provider.MediaStore
 import android.support.v4.content.FileProvider
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import com.mcxiaoke.koi.log.logd
 import com.wojtekmalek.expenseslog.R
+import com.wojtekmalek.expenseslog.R.id.*
 import com.wojtekmalek.expenseslog.ui.addExpense.RealmHelper
 import kotlinx.android.synthetic.main.activity_paragons.*
 import permissions.dispatcher.NeedsPermission
@@ -45,10 +45,6 @@ class ParagonsActivity : AppCompatActivity() {
                 .saveInAppExternalFilesDir()
                 .setImagesFolderName("Paragons")
                 .setCopyExistingPicturesToPublicLocation(true)*/
-
-        RealmHelper.getAllParagons().forEach {
-            logd { it.uuid }
-        }
 
         if (intent.getBooleanExtra(SHOULD_START_PHOTO_PICKER, false)) {
             takePictureWithPermissionCheck()

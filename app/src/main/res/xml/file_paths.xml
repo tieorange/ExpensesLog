@@ -2,4 +2,7 @@
 <paths xmlns:android="http://schemas.android.com/apk/res/android">
     <external-path name="my_images"
         path="Android/data/com.wojtekmalek.expenseslog/files/Pictures" />
+
+    <external-path name="csv_report"
+        path="Android/data/com.wojtekmalek.expenseslog/files/Csv_Reports" />
 </paths>
