@@ -61,11 +61,11 @@
         <activity
             android:name=".ui.paragon.ParagonsActivity"
             android:label="@string/title_activity_paragons"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.wojtekmalek.expenseslog.fileprovider"
+            android:authorities="${applicationId}.share"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

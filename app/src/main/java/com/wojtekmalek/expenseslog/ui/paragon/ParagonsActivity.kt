@@ -12,7 +12,6 @@ import android.support.v4.content.FileProvider
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import com.wojtekmalek.expenseslog.R
-import com.wojtekmalek.expenseslog.R.id.*
 import com.wojtekmalek.expenseslog.ui.addExpense.RealmHelper
 import kotlinx.android.synthetic.main.activity_paragons.*
 import permissions.dispatcher.NeedsPermission
@@ -71,7 +70,7 @@ class ParagonsActivity : AppCompatActivity() {
                 // Error occurred while creating the File
             }
             if (photoFile != null) {
-                val photoURI = FileProvider.getUriForFile (applicationContext, "com.wojtekmalek.expenseslog", photoFile)
+                val photoURI = FileProvider.getUriForFile(applicationContext, "$packageName.share", photoFile)
                 pictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
                         photoURI)
                 startActivityForResult(pictureIntent,
@@ -100,7 +99,7 @@ class ParagonsActivity : AppCompatActivity() {
     @NeedsPermission(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
     fun takePicture() {
         //        EasyImage.openChooserWithGallery(this, "Choose paragon", 0)
-//        EasyImage.openCamera(this, 0)
+        //        EasyImage.openCamera(this, 0)
         openCameraIntent()
     }
 
@@ -119,12 +118,12 @@ class ParagonsActivity : AppCompatActivity() {
 
         })*/
 
-//        if (requestCode === REQUEST_CAPTURE_IMAGE && resultCode === Activity.RESULT_OK) {
-            if (data != null && data.extras != null) {
-                val imageBitmap = data.extras.get("data") as Bitmap
-                imagePath?.let { paragonsAdapter.addNew(it) }
-            }
-//        }
+        //        if (requestCode === REQUEST_CAPTURE_IMAGE && resultCode === Activity.RESULT_OK) {
+        imagePath?.let { paragonsAdapter.addNew(it) }
+        if (data != null && data.extras != null) {
+            val imageBitmap = data.extras.get("data") as Bitmap
+        }
+        //        }
     }
 
 

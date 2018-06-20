@@ -43,11 +43,10 @@ class HistoryExportHelper(
     }
 
     private fun groupByDate(): Map<String, List<ExpenseItem>> {
-        val groupedByDate = expenses
+
+        return expenses
                 .sortedBy { it.timeStamp }
                 .groupBy { Date(it.timeStamp).asString("dd.MM.yyyy") }
-
-        return groupedByDate
     }
 
     private fun getCsvString(groupedByDate: Map<String, List<ExpenseItem>>): String {
